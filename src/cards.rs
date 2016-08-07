@@ -1,9 +1,11 @@
-use self::Suit::*;
-use self::Rank::*;
 use std::slice::Iter;
 
-#[derive(Debug, Copy, Clone)]
+use self::Suit::*;
+use self::Rank::*;
+
+
 #[allow(dead_code)]
+#[derive(Debug, Copy, Clone, Eq, PartialEq)]
 pub enum Suit {
     Hearts,
     Clubs,
@@ -18,8 +20,8 @@ impl Suit {
     }
 }
 
-#[derive(Debug, Copy, Clone)]
 #[allow(dead_code)]
+#[derive(Debug, Copy, Clone, Eq, PartialEq)]
 pub enum Rank {
     Ace,
     Two,
@@ -43,23 +45,19 @@ impl Rank {
     }
 }
 
+#[derive(Debug, Copy, Clone)]
 pub struct Card {
     pub suit: Suit,
     pub rank: Rank
 }
 
-pub struct Deck {
-    cards: Vec<Card>
-}
-
-impl Deck {
-    pub fn new() -> Deck {
-        let mut c: Vec<Card> = vec![];
-        let mut d: Deck = Deck{cards: c};
-        d
-    }
-
-    pub fn append(&mut self, c: Card) {
-        self.cards.push(Card{suit: c.suit, rank: c.rank});
+impl PartialEq for Card {
+    fn eq(&self, other: &Self) -> bool {
+        if self.suit == other.suit && self.rank == other.rank {
+            return true
+        } else {
+            return false
+        }
     }
 }
+
