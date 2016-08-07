@@ -1,11 +1,12 @@
-mod cards;
-mod card_hands;
+mod card;
+mod hand;
+mod deck;
+
+use card::*;
+use hand::*;
+use deck::*;
 
 use std::thread;
-
-use cards::*;
-use card_hands::*;
-
 
 fn main() {
     let child = thread::Builder::new().stack_size(32*1024*1024).spawn(move || {

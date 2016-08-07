@@ -1,8 +1,7 @@
-use std::slice::Iter;
-
 use self::Suit::*;
 use self::Rank::*;
 
+use std::slice::Iter;
 
 #[allow(dead_code)]
 #[derive(Debug, Copy, Clone, Eq, PartialEq)]
