@@ -2,6 +2,7 @@ use self::Suit::*;
 use self::Rank::*;
 
 use std::slice::Iter;
+use std::fmt;
 
 #[allow(dead_code)]
 #[derive(Debug, Copy, Clone, Eq, PartialEq)]
@@ -16,6 +17,19 @@ impl Suit {
     pub fn iter() -> Iter<'static, Suit> {
         static SUITS: [Suit; 4] = [ Hearts, Clubs, Diamonds, Spades ];
         SUITS.into_iter()
+    }
+}
+
+impl fmt::Display for Suit {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        let s: &'static str;
+        match *self {
+            Hearts => s = "H",
+            Clubs => s = "C",
+            Diamonds => s = "D",
+            Spades => s = "S",
+        }
+        write!(f, "{}", s)
     }
 }
 
@@ -44,6 +58,28 @@ impl Rank {
     }
 }
 
+impl fmt::Display for Rank {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        let s: &'static str;
+        match *self {
+            Ace => s = "A",
+            Two => s = "2",
+            Three => s = "3",
+            Four => s = "4",
+            Five => s = "5",
+            Six => s = "6",
+            Seven => s = "7",
+            Eight => s = "8",
+            Nine => s = "9",
+            Ten => s = "10",
+            Jack => s = "J",
+            Queen => s = "Q",
+            King => s = "K",
+        }
+        write!(f, "{}", s)
+    }
+}
+
 #[derive(Debug, Copy, Clone)]
 pub struct Card {
     pub suit: Suit,
@@ -57,6 +93,12 @@ impl PartialEq for Card {
         } else {
             return false
         }
+    }
+}
+
+impl fmt::Display for Card {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "{}{}", self.rank, self.suit)
     }
 }
 

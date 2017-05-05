@@ -1,5 +1,4 @@
 use card::*;
-use deck::*;
 
 
 #[allow(dead_code)]
@@ -11,7 +10,7 @@ pub struct Hand {
 
 impl Hand {
     pub fn new(size: usize) -> Hand {
-        let c: Vec<Card> = Vec::with_capacity(5);
+        let c: Vec<Card> = Vec::with_capacity(size);
         let h: Hand = Hand{ cards: c, max_size: size };
         h
     }
@@ -26,12 +25,8 @@ impl Hand {
         h
     }
 
-    pub fn len(&self) -> usize {
-        self.cards.len()
-    }
-
     pub fn append(&mut self, c: Card) {
-        if self.len() < self.max_size {
+        if self.cards.len() < self.max_size {
             self.cards.push(Card{suit: c.suit, rank: c.rank});
         } else {
             panic!("Cannot add card to hand. It is already full.");
@@ -39,7 +34,7 @@ impl Hand {
     }
 
     pub fn full(&self) -> bool {
-        if self.len() >= self.max_size {
+        if self.cards.len() >= self.max_size {
             return true
         } else {
             return false
@@ -47,22 +42,24 @@ impl Hand {
     }
 }
 
-pub fn gen_all_hands(deck: &Deck, hand: &Hand, mut hands: &mut Vec<Hand>) {
-
+pub fn gen_all_hands(deck: &[Card], mut hand: &mut Hand, mut hands: &mut Vec<Hand>) {
     if hand.full() {
-        let new_hand: Hand = Hand::copy(&hand);
-        hands.push(new_hand);
+        let copy_hand: Hand = Hand::copy(&hand);
+        hands.push(copy_hand);
     } else if deck.len() > 0 {
-        let mut deck_copy: Deck = Deck::copy(&deck);
-        let card: Card = deck_copy.cards.remove(0);
+        let mut new_hand: Hand = Hand::copy(&hand);
+        new_hand.append(deck[0]);
 
+
+        let mut deck_slice: &[Card] = &Vec::with_capacity(0);
+        if deck.len() > 0 {
+            deck_slice = &deck[0..deck.len()-1];
+        }
         {
-            let mut new_hand: Hand = Hand::copy(&hand);
-            new_hand.append(card);
-            gen_all_hands(&deck_copy, &new_hand, &mut hands);
+            gen_all_hands(deck_slice, &mut new_hand, &mut hands);
         }
 
-        gen_all_hands(&deck_copy, &hand, &mut hands);
+        gen_all_hands(deck_slice, &mut hand, &mut hands);
     }
 }
 
