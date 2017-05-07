@@ -12,7 +12,7 @@ fn main() {
     let mut hand: Hand = Hand::new(5);
     let mut hands: Vec<Hand> = Vec::with_capacity(3000000);
 
-    gen_all_hands(&deck, &mut hand, &mut hands);
+    gen_all_hands(&deck, hand, &mut hands);
     println!("Hands: {}", hands.len());
 
     return
