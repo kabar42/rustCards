@@ -1,3 +1,5 @@
+use std::fmt;
+
 use card::*;
 
 
@@ -42,13 +44,25 @@ impl Hand {
     }
 }
 
+impl fmt::Display for Hand {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        let mut s: String = String::new();
+        s += "[";
+        for c in self.cards.iter() {
+            s += format!("{},", c).as_str();
+        }
+        s += "]";
+        write!(f, "{}", s)
+    }
+}
+
 pub fn gen_all_hands(deck: &[Card], hand: Hand, mut hands: &mut Vec<Hand>) {
     if hand.full() {
         hands.push(hand);
     } else if deck.len() > 0 {
         let mut deck_slice: &[Card] = &Vec::with_capacity(0);
         if deck.len() > 0 {
-            deck_slice = &deck[0..deck.len()-1];
+            deck_slice = &deck[1..deck.len()];
         }
         {
             let mut new_hand: Hand = Hand::copy(&hand);

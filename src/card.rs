@@ -1,11 +1,11 @@
+use std::fmt;
+use std::slice::Iter;
+
 use self::Suit::*;
 use self::Rank::*;
 
-use std::slice::Iter;
-use std::fmt;
-
 #[allow(dead_code)]
-#[derive(Debug, Copy, Clone, Eq, PartialEq)]
+#[derive(Debug, Copy, Clone, Eq, PartialEq, Ord, PartialOrd)]
 pub enum Suit {
     Hearts,
     Clubs,
@@ -34,7 +34,7 @@ impl fmt::Display for Suit {
 }
 
 #[allow(dead_code)]
-#[derive(Debug, Copy, Clone, Eq, PartialEq)]
+#[derive(Debug, Copy, Clone, Eq, PartialEq, Ord, PartialOrd)]
 pub enum Rank {
     Ace,
     Two,
@@ -77,6 +77,25 @@ impl fmt::Display for Rank {
             King => s = "K",
         }
         write!(f, "{}", s)
+    }
+}
+
+pub fn int_to_rank(value: usize) -> Rank {
+    match value {
+        1 => Rank::Ace,
+        2 => Rank::Two,
+        3 => Rank::Three,
+        4 => Rank::Four,
+        5 => Rank::Five,
+        6 => Rank::Six,
+        7 => Rank::Seven,
+        8 => Rank::Eight,
+        9 => Rank::Nine,
+        10 => Rank::Ten,
+        11 => Rank::Jack,
+        12 => Rank::Queen,
+        13 => Rank::King,
+        _ => Rank::Two,
     }
 }
 
