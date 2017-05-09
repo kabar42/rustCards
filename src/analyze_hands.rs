@@ -20,9 +20,11 @@ pub enum HandType {
     RoyalFlush
 }
 
+const HAND_TYPES_COUNT: usize = 10;
+
 impl HandType {
     pub fn iter() -> Iter<'static, HandType> {
-        static HAND_TYPES: [HandType; 10] = [ 
+        static HAND_TYPES: [HandType; HAND_TYPES_COUNT] = [
             NoPair,
             OnePair,
             TwoPair,
@@ -58,12 +60,12 @@ impl fmt::Display for HandType {
 }
 
 pub struct HandData {
-    pub suit_count: [i32; 4],
-    pub rank_count: [i32; 13]
+    pub suit_count: [i32; SUIT_COUNT],
+    pub rank_count: [i32; RANK_COUNT]
 }
 
 pub fn count_hand_types(all_hands: Vec<Hand>) -> Vec<i32> {
-    let mut type_counts = vec![0; 10];
+    let mut type_counts = vec![0; HAND_TYPES_COUNT];
 
     for hand in all_hands.iter() {
         let data: HandData = get_hand_data(hand);
@@ -74,7 +76,7 @@ pub fn count_hand_types(all_hands: Vec<Hand>) -> Vec<i32> {
 }
 
 fn get_hand_data(hand: &Hand) -> HandData {
-    let mut data = HandData{suit_count: [0; 4], rank_count: [0; 13]};
+    let mut data = HandData{suit_count: [0; SUIT_COUNT], rank_count: [0; RANK_COUNT]};
     for card in hand.cards.iter() {
         data.suit_count[card.suit as usize] += 1;
         data.rank_count[card.rank as usize] += 1;
@@ -97,7 +99,7 @@ fn determine_hand_type(data: HandData) -> HandType {
 
     let mut ranks_present: Vec<Rank> = get_ranks_present(&data.rank_count);
 
-    if array_contains(&data.suit_count, 5) {
+    if array_contains(&data.suit_count, HAND_SIZE) {
         if data.rank_count[Rank::Ten as usize] == 1 &&
             data.rank_count[Rank::Jack as usize] == 1 &&
             data.rank_count[Rank::Queen as usize] == 1 &&
@@ -113,7 +115,7 @@ fn determine_hand_type(data: HandData) -> HandType {
         return HandType::Flush
     }
 
-    if array_contains(&data.rank_count, 4) {
+    if array_contains(&data.rank_count, SUIT_COUNT) {
         return HandType::FourOfAKind
     }
 
@@ -139,7 +141,7 @@ fn determine_hand_type(data: HandData) -> HandType {
 }
 
 fn get_ranks_present(counts: &[i32]) -> Vec<Rank> {
-    let mut ranks: Vec<Rank> = Vec::with_capacity(0);
+    let mut ranks: Vec<Rank> = Vec::with_capacity(RANK_COUNT);
     for i in 0..counts.len() {
         if counts[i] > 0 {
             ranks.push(int_to_rank(i));
@@ -148,9 +150,18 @@ fn get_ranks_present(counts: &[i32]) -> Vec<Rank> {
     return ranks
 }
 
-fn array_contains(counts: &[i32], val: i32) -> bool {
+fn array_contains(counts: &[i32], val: usize) -> bool {
     for v in counts.iter() {
-        if *v == val {
+        if *v == val as i32 {
+            return true;
+        }
+    }
+    return false;
+}
+
+fn rank_array_contains(ranks: &mut Vec<Rank>, r: Rank) -> bool {
+    for v in ranks.iter() {
+        if *v == r {
             return true;
         }
     }
@@ -158,31 +169,17 @@ fn array_contains(counts: &[i32], val: i32) -> bool {
 }
 
 fn ranks_are_sequential(ranks: &mut Vec<Rank>) -> bool {
-    if ranks.len() < 5 {
+    if ranks.len() < HAND_SIZE {
         return false
     }
 
     ranks.sort();
-    // for rank in ranks.iter() {
-    //     print!("{},", rank);
-    // }
-    // print!("\n");
 
-    if ranks[0] == Rank::Ace &&
-        ranks[1] == Rank::Ten &&
-        ranks[2] == Rank::Jack &&
-        ranks[3] == Rank::Queen &&
-        ranks[4] == Rank::King {
-            return true
-    }
-
-    for i in 0..ranks.len() {
-        if i > 0 {
-            let prev_rank = ranks[i-1] as i32;
-            let this_rank = ranks[i] as i32;
-            if prev_rank != this_rank-1 {
-                return false
-            }
+    for i in 1..ranks.len() {
+        let prev_rank = ranks[i-1] as i32;
+        let this_rank = ranks[i] as i32;
+        if prev_rank != this_rank-1 {
+            return false
         }
     }
     

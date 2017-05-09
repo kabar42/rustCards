@@ -10,6 +10,8 @@ pub struct Hand {
     pub max_size: usize
 }
 
+pub const HAND_SIZE: usize = 5;
+
 impl Hand {
     pub fn new(size: usize) -> Hand {
         let c: Vec<Card> = Vec::with_capacity(size);
@@ -18,7 +20,7 @@ impl Hand {
     }
 
     pub fn copy(other: &Hand) -> Hand {
-        let mut c: Vec<Card> = Vec::with_capacity(5);
+        let mut c: Vec<Card> = Vec::with_capacity(HAND_SIZE);
         for card in other.cards.iter() {
             c.push(Card{suit: card.suit, rank: card.rank})
         }

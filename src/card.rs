@@ -13,6 +13,8 @@ pub enum Suit {
     Spades
 }
 
+pub const SUIT_COUNT: usize = 4;
+
 impl Suit {
     pub fn iter() -> Iter<'static, Suit> {
         static SUITS: [Suit; 4] = [ Hearts, Clubs, Diamonds, Spades ];
@@ -50,6 +52,8 @@ pub enum Rank {
     Queen,
     King
 }
+
+pub const RANK_COUNT: usize = 13;
 
 impl Rank {
     pub fn iter() -> Iter<'static, Rank> {
