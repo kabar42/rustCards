@@ -3,7 +3,6 @@ use std::fmt;
 use card::*;
 
 
-#[allow(dead_code)]
 #[derive(Debug)]
 pub struct Hand {
     pub cards: Vec<Card>,

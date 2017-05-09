@@ -1,5 +1,4 @@
 use std::fmt;
-use std::slice::Iter;
 
 use card::*;
 use hand::*;
@@ -21,24 +20,6 @@ pub enum HandType {
 }
 
 const HAND_TYPES_COUNT: usize = 10;
-
-impl HandType {
-    pub fn iter() -> Iter<'static, HandType> {
-        static HAND_TYPES: [HandType; HAND_TYPES_COUNT] = [
-            NoPair,
-            OnePair,
-            TwoPair,
-            ThreeOfAKind,
-            Straight,
-            Flush,
-            FullHouse,
-            FourOfAKind,
-            StraightFlush,
-            RoyalFlush
-        ];
-        HAND_TYPES.into_iter()
-    }
-}
 
 impl fmt::Display for HandType {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
@@ -153,15 +134,6 @@ fn get_ranks_present(counts: &[i32]) -> Vec<Rank> {
 fn array_contains(counts: &[i32], val: usize) -> bool {
     for v in counts.iter() {
         if *v == val as i32 {
-            return true;
-        }
-    }
-    return false;
-}
-
-fn rank_array_contains(ranks: &mut Vec<Rank>, r: Rank) -> bool {
-    for v in ranks.iter() {
-        if *v == r {
             return true;
         }
     }

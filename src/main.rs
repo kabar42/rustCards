@@ -10,7 +10,7 @@ use analyze_hands::*;
 
 fn main() {
     let deck: Vec<Card> = build_std_deck();
-    let mut hand: Hand = Hand::new(5);
+    let hand: Hand = Hand::new(5);
     let mut hands: Vec<Hand> = Vec::with_capacity(3000000);
 
     gen_all_hands(&deck, hand, &mut hands);

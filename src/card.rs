@@ -4,7 +4,6 @@ use std::slice::Iter;
 use self::Suit::*;
 use self::Rank::*;
 
-#[allow(dead_code)]
 #[derive(Debug, Copy, Clone, Eq, PartialEq, Ord, PartialOrd)]
 pub enum Suit {
     Hearts,
@@ -35,7 +34,6 @@ impl fmt::Display for Suit {
     }
 }
 
-#[allow(dead_code)]
 #[derive(Debug, Copy, Clone, Eq, PartialEq, Ord, PartialOrd)]
 pub enum Rank {
     Ace,
