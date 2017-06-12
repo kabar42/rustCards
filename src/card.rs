@@ -16,7 +16,7 @@ pub const SUIT_COUNT: usize = 4;
 
 impl Suit {
     pub fn iter() -> Iter<'static, Suit> {
-        static SUITS: [Suit; 4] = [ Hearts, Clubs, Diamonds, Spades ];
+        static SUITS: [Suit; SUIT_COUNT] = [ Hearts, Clubs, Diamonds, Spades ];
         SUITS.into_iter()
     }
 }
@@ -48,14 +48,15 @@ pub enum Rank {
     Ten,
     Jack,
     Queen,
-    King
+    King,
+    InvalidRank
 }
 
 pub const RANK_COUNT: usize = 13;
 
 impl Rank {
     pub fn iter() -> Iter<'static, Rank> {
-        static RANKS: [Rank; 13] = [ Ace, Two, Three, Four, Five, Six, Seven, Eight, Nine, Ten, Jack, Queen, King ];
+        static RANKS: [Rank; RANK_COUNT] = [ Ace, Two, Three, Four, Five, Six, Seven, Eight, Nine, Ten, Jack, Queen, King ];
         RANKS.into_iter()
     }
 }
@@ -77,6 +78,7 @@ impl fmt::Display for Rank {
             Jack => s = "J",
             Queen => s = "Q",
             King => s = "K",
+            InvalidRank => s = "ERR",
         }
         write!(f, "{}", s)
     }
@@ -84,20 +86,20 @@ impl fmt::Display for Rank {
 
 pub fn int_to_rank(value: usize) -> Rank {
     match value {
-        1 => Rank::Ace,
-        2 => Rank::Two,
-        3 => Rank::Three,
-        4 => Rank::Four,
-        5 => Rank::Five,
-        6 => Rank::Six,
-        7 => Rank::Seven,
-        8 => Rank::Eight,
-        9 => Rank::Nine,
-        10 => Rank::Ten,
-        11 => Rank::Jack,
-        12 => Rank::Queen,
-        13 => Rank::King,
-        _ => Rank::Two,
+        0 => Rank::Ace,
+        1 => Rank::Two,
+        2 => Rank::Three,
+        3 => Rank::Four,
+        4 => Rank::Five,
+        5 => Rank::Six,
+        6 => Rank::Seven,
+        7 => Rank::Eight,
+        8 => Rank::Nine,
+        9 => Rank::Ten,
+        10 => Rank::Jack,
+        11 => Rank::Queen,
+        12 => Rank::King,
+        _ => Rank::InvalidRank,
     }
 }
 

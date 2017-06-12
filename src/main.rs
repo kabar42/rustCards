@@ -20,6 +20,4 @@ fn main() {
     for (hand_type, count) in type_counts.iter().enumerate() {
         println!("{}: {}", hand_type, *count);
     }
-
-    return
 }

@@ -147,10 +147,20 @@ fn ranks_are_sequential(ranks: &mut Vec<Rank>) -> bool {
 
     ranks.sort();
 
+    if ranks[0] == Rank::Ace &&
+       ranks[1] == Rank::Ten &&
+       ranks[2] == Rank::Jack &&
+       ranks[3] == Rank::Queen &&
+       ranks[4] == Rank::King {
+        return true
+    }
+
     for i in 1..ranks.len() {
         let prev_rank = ranks[i-1] as i32;
         let this_rank = ranks[i] as i32;
-        if prev_rank != this_rank-1 {
+        if (ranks[i-1] != Rank::InvalidRank) &&
+           (ranks[i] != Rank::InvalidRank) &&
+           prev_rank != this_rank-1 {
             return false
         }
     }
