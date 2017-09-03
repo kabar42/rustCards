@@ -49,8 +49,8 @@ pub fn count_hand_types(all_hands: Vec<Hand>) -> Vec<i32> {
     let mut type_counts = vec![0; HAND_TYPES_COUNT];
 
     for hand in all_hands.iter() {
-        let data: HandData = get_hand_data(hand);
-        let hand_type: HandType = determine_hand_type(data);
+        let data = get_hand_data(hand);
+        let hand_type = determine_hand_type(data);
         type_counts[hand_type as usize] += 1;
     }
     return type_counts
@@ -78,14 +78,10 @@ fn determine_hand_type(data: HandData) -> HandType {
         }
     }
 
-    let mut ranks_present: Vec<Rank> = get_ranks_present(&data.rank_count);
+    let mut ranks_present = get_ranks_present(&data.rank_count);
 
     if array_contains(&data.suit_count, HAND_SIZE) {
-        if data.rank_count[Rank::Ten as usize] == 1 &&
-            data.rank_count[Rank::Jack as usize] == 1 &&
-            data.rank_count[Rank::Queen as usize] == 1 &&
-            data.rank_count[Rank::King as usize] == 1 &&
-            data.rank_count[Rank::Ace as usize] == 1 {
+        if is_royal_flush(&data.rank_count) {
             return HandType::RoyalFlush
         }
 
@@ -136,6 +132,17 @@ fn array_contains(counts: &[i32], val: usize) -> bool {
         if *v == val as i32 {
             return true;
         }
+    }
+    return false;
+}
+
+fn is_royal_flush(rank_count: &[i32]) -> bool {
+    if rank_count[Rank::Ten as usize] == 1 &&
+        rank_count[Rank::Jack as usize] == 1 &&
+        rank_count[Rank::Queen as usize] == 1 &&
+        rank_count[Rank::King as usize] == 1 &&
+        rank_count[Rank::Ace as usize] == 1 {
+        return true;
     }
     return false;
 }

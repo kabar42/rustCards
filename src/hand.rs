@@ -13,18 +13,18 @@ pub const HAND_SIZE: usize = 5;
 
 impl Hand {
     pub fn new(size: usize) -> Hand {
-        let c: Vec<Card> = Vec::with_capacity(size);
-        let h: Hand = Hand{ cards: c, max_size: size };
+        let c = Vec::with_capacity(size);
+        let h = Hand{ cards: c, max_size: size };
         h
     }
 
     pub fn copy(other: &Hand) -> Hand {
-        let mut c: Vec<Card> = Vec::with_capacity(HAND_SIZE);
+        let mut c = Vec::with_capacity(HAND_SIZE);
         for card in other.cards.iter() {
             c.push(Card{suit: card.suit, rank: card.rank})
         }
 
-        let h: Hand = Hand{cards: c, max_size: other.max_size};
+        let h = Hand{cards: c, max_size: other.max_size};
         h
     }
 
@@ -47,7 +47,7 @@ impl Hand {
 
 impl fmt::Display for Hand {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        let mut s: String = String::new();
+        let mut s = String::new();
         s += "[";
         for c in self.cards.iter() {
             s += format!("{},", c).as_str();
@@ -61,12 +61,9 @@ pub fn gen_all_hands(deck: &[Card], hand: Hand, mut hands: &mut Vec<Hand>) {
     if hand.full() {
         hands.push(hand);
     } else if deck.len() > 0 {
-        let mut deck_slice: &[Card] = &Vec::with_capacity(0);
-        if deck.len() > 0 {
-            deck_slice = &deck[1..deck.len()];
-        }
+        let deck_slice = &deck[1..deck.len()];
         {
-            let mut new_hand: Hand = Hand::copy(&hand);
+            let mut new_hand = Hand::copy(&hand);
             new_hand.append(deck[0]);
             gen_all_hands(deck_slice, new_hand, &mut hands);
         }

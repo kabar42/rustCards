@@ -111,7 +111,8 @@ pub struct Card {
 
 impl PartialEq for Card {
     fn eq(&self, other: &Self) -> bool {
-        if self.suit == other.suit && self.rank == other.rank {
+        if self.suit == other.suit &&
+           self.rank == other.rank {
             return true
         } else {
             return false
